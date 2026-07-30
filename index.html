@@ -1,0 +1,1282 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JRB TRUSTED | Ecossistema Hoteleiro de IA - Reservas Limpas e Diretas</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Plus Jakarta Sans & Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            bg: '#FFFFFF',
+                            surface: '#F8FAFC',
+                            card: '#FFFFFF',
+                            border: '#E2E8F0',
+                            accent: '#2563EB',
+                            lightBlue: '#0284C7',
+                            emerald: '#10B981',
+                            darkText: '#0F172A',
+                            mutedText: '#64748B',
+                            navy: '#0B132B'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'Inter', 'sans-serif'],
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'float': 'float 5s ease-in-out infinite',
+                        'bounce-subtle': 'bounceSubtle 2s infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-8px)' },
+                        },
+                        bounceSubtle: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-6px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #FFFFFF;
+            color: #0F172A;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            overflow-x: hidden;
+        }
+        .light-card {
+            background: #FFFFFF;
+            border: 1px solid #E2E8F0;
+            box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+        }
+        .light-card-hover:hover {
+            border-color: #93C5FD;
+            box-shadow: 0 12px 30px -4px rgba(37, 99, 235, 0.12);
+        }
+        .navy-card {
+            background: #0F172A;
+            color: #FFFFFF;
+        }
+        .gradient-text-blue {
+            background: linear-gradient(135deg, #1E40AF 0%, #2563EB 50%, #0284C7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .gradient-text-green {
+            background: linear-gradient(135deg, #059669 0%, #10B981 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .chat-balloon-bot {
+            position: relative;
+            border-bottom-left-radius: 4px !important;
+        }
+        .chat-balloon-user {
+            position: relative;
+            border-bottom-right-radius: 4px !important;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 5px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #F1F5F9;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #CBD5E1;
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #2563EB;
+        }
+        .pousada-card-active {
+            border-color: #2563EB !important;
+            box-shadow: 0 0 20px rgba(37, 99, 235, 0.18);
+            background: #F0F9FF !important;
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-blue-600 selection:text-white bg-white text-slate-900">
+
+    <!-- NAVIGATION BAR -->
+    <header class="fixed top-0 left-0 w-full z-40 bg-white/90 backdrop-blur-md border-b border-slate-100" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <!-- Brand Logo -->
+            <a href="#" class="flex items-center gap-3 group">
+
+        <!-- Logo -->
+        <img
+            src="assets/logo.jpg"
+            alt="JRB Trusted"
+            class="h-12 w-auto transition-transform duration-300 group-hover:scale-105"
+        >
+
+        <!-- Texto -->
+        <div class="flex flex-col">
+            <span class="text-xl font-extrabold tracking-tight text-slate-900">
+                <span class="text-blue-600"></span>
+            </span>
+            <span class="text-[10px] tracking-widest text-slate-500 uppercase font-semibold">
+                Reservas Limpas & Diretas
+            </span>
+        </div>
+
+    </a>
+
+            <!-- Desktop Nav Links -->
+            <nav class="hidden md:flex items-center gap-8 text-sm font-semibold text-slate-600">
+                <a href="#pousadas-seletor" class="hover:text-blue-600 transition-colors flex items-center gap-2">
+                    <i class="fa-solid fa-hotel text-xs text-blue-600"></i> Escolher Pousada
+                </a>
+                <a href="#calculadora" class="hover:text-blue-600 transition-colors">Simulador de ROI</a>
+                <a href="#agente-demo" class="hover:text-blue-600 transition-colors flex items-center gap-1.5">
+                    <span class="relative flex h-2 w-2">
+                      <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+                      <span class="relative inline-flex rounded-full h-2 w-2 bg-blue-600"></span>
+                    </span>
+                    Bot Balão ao Vivo
+                </a>
+                <a href="#pilares" class="hover:text-blue-600 transition-colors">Ecossistema de IA</a>
+            </nav>
+
+            <!-- Action CTA Button -->
+            <div class="hidden sm:flex items-center gap-4">
+                <a href="#diagnostico" class="px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs uppercase tracking-wider shadow-md shadow-blue-600/20 transition-all flex items-center gap-2">
+                    <i class="fa-brands fa-whatsapp text-sm"></i>
+                    <span>Falar com Especialista</span>
+                </a>
+            </div>
+
+            <!-- Mobile Menu Trigger -->
+            <button class="md:hidden text-slate-700 text-xl" id="mobile-menu-btn" onclick="toggleMobileMenu()">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+        
+        <!-- Mobile Dropdown -->
+        <div id="mobile-nav" class="hidden md:hidden bg-white border-b border-slate-200 p-4 space-y-3 text-sm font-semibold">
+            <a href="#pousadas-seletor" onclick="toggleMobileMenu()" class="block text-blue-600">Escolher Pousada para Testar</a>
+            <a href="#calculadora" onclick="toggleMobileMenu()" class="block text-slate-700 hover:text-blue-600">Calculadora de ROI</a>
+            <a href="#agente-demo" onclick="toggleMobileMenu()" class="block text-slate-700 hover:text-blue-600">Bot Balão de IA</a>
+            <a href="#pilares" onclick="toggleMobileMenu()" class="block text-slate-700 hover:text-blue-600">Ecossistema JRB</a>
+            <a href="#diagnostico" onclick="toggleMobileMenu()" class="block text-blue-600">Diagnóstico Gratuito</a>
+        </div>
+    </header>
+
+    <!-- HERO SECTION (LIGHT BACKGROUND) -->
+    <section class="relative pt-32 pb-20 md:pt-36 md:pb-24 overflow-hidden bg-gradient-to-b from-blue-50/60 via-white to-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid lg:grid-cols-12 gap-12 items-center">
+                
+                <!-- Left Column: Copy & Value Proposition -->
+                <div class="lg:col-span-7 text-center lg:text-left">
+                    
+                    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-100 border border-blue-200 text-blue-700 text-xs font-bold uppercase tracking-wider mb-6">
+                        <i class="fa-solid fa-comment-dots text-blue-600 animate-pulse"></i>
+                        <span>Interativo: Escolha uma pousada e teste o Bot em tempo real</span>
+                    </div>
+
+                    <h1 class="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight text-slate-900 mb-6">
+                        Suas reservas diretas estão sendo <span class="gradient-text-green font-black">sequestradas</span> por comissões?
+                    </h1>
+
+                    <p class="text-base sm:text-lg text-slate-600 font-normal leading-relaxed mb-8 max-w-2xl mx-auto lg:mx-0">
+                        Pague menos comissão para Booking e Expedia. O ecossistema <strong class="text-slate-900 font-semibold">Reservas Limpas e Diretas</strong> combina nosso <strong>Bot Balão de IA Conversacional</strong>, Tráfego Pago de Precisão e Retenção de Hóspedes para devolver até <span class="text-emerald-600 font-bold underline decoration-emerald-500/50 decoration-2">35% da sua margem de lucro</span>.
+                    </p>
+
+                    <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 mb-10">
+                        <a href="#pousadas-seletor" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm uppercase tracking-wider shadow-lg shadow-blue-600/25 transition-all transform hover:-translate-y-0.5 flex items-center justify-center gap-3">
+                            <i class="fa-solid fa-hand-pointer"></i>
+                            <span>Escolher Pousada e Ativar Bot</span>
+                        </a>
+                        <button onclick="toggleFloatingChat()" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-white hover:bg-slate-50 text-slate-700 font-semibold text-sm transition-all border border-slate-300 flex items-center justify-center gap-2 shadow-sm">
+                            <i class="fa-solid fa-headset text-blue-600 text-base animate-bounce-subtle"></i>
+                            <span>Falar com Consultor JRB</span>
+                        </button>
+                    </div>
+
+                    <div class="pt-6 border-t border-slate-200 grid grid-cols-3 gap-4 text-center lg:text-left">
+                        <div>
+                            <div class="text-xl sm:text-2xl font-extrabold text-slate-900">+380</div>
+                            <div class="text-xs text-slate-500 font-medium">Hotéis & Pousadas</div>
+                        </div>
+                        <div>
+                            <div class="text-xl sm:text-2xl font-extrabold text-emerald-600">R$ 14M+</div>
+                            <div class="text-xs text-slate-500 font-medium">Economizados em OTAs</div>
+                        </div>
+                        <div>
+                            <div class="text-xl sm:text-2xl font-extrabold text-blue-600">24/7</div>
+                            <div class="text-xs text-slate-500 font-medium">Vendas com Bot Balão</div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Right Column: Live AI Dashboard Preview Card -->
+                <div class="lg:col-span-5">
+                    <div class="relative animate-float">
+                        <div class="relative rounded-2xl light-card p-6 shadow-xl border border-slate-200 bg-white">
+                            
+                            <div class="flex items-center justify-between pb-4 mb-4 border-b border-slate-100">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-3 h-3 rounded-full bg-emerald-500 animate-pulse"></div>
+                                    <span class="text-xs font-bold uppercase tracking-wider text-slate-800" id="hero-card-hotel-title">Pousada Serra da Mantiqueira</span>
+                                </div>
+                                <span class="text-[11px] px-2.5 py-1 rounded-md bg-emerald-50 text-emerald-700 border border-emerald-200 font-mono font-semibold" id="hero-card-status">Status: Bot Balão Ativo</span>
+                            </div>
+
+                            <div class="space-y-4 mb-6">
+                                
+                                <div class="bg-red-50 p-3.5 rounded-xl border border-red-200">
+                                    <div class="flex justify-between text-xs mb-1.5">
+                                        <span class="text-red-700 font-bold"><i class="fa-solid fa-triangle-exclamation mr-1"></i> Comissões Perdidas para OTAs</span>
+                                        <span class="text-red-700 font-bold font-mono" id="hero-ota-loss">- R$ 8.700 / mês</span>
+                                    </div>
+                                    <div class="w-full h-2 bg-red-100 rounded-full overflow-hidden">
+                                        <div class="h-full bg-red-500 w-[78%]"></div>
+                                    </div>
+                                    <div class="text-[10px] text-red-600/80 mt-1">25% da receita bruta indo para intermediários.</div>
+                                </div>
+
+                                <div class="bg-emerald-50 p-3.5 rounded-xl border border-emerald-200">
+                                    <div class="flex justify-between text-xs mb-1.5">
+                                        <span class="text-emerald-700 font-bold"><i class="fa-solid fa-shield-halved mr-1"></i> Lucro Resgatado pelo Bot Balão JRB</span>
+                                        <span class="text-emerald-700 font-bold font-mono" id="hero-jrb-gain">+ R$ 6.100 / mês</span>
+                                    </div>
+                                    <div class="w-full h-2 bg-emerald-100 rounded-full overflow-hidden">
+                                        <div class="h-full bg-emerald-500 w-[85%]"></div>
+                                    </div>
+                                    <div class="text-[10px] text-emerald-700 mt-1">CAC reduzido com Atendimento IA por Balões no WhatsApp e Web.</div>
+                                </div>
+
+                            </div>
+
+                            <div class="bg-slate-50 rounded-xl p-3 border border-slate-200 text-xs">
+                                <div class="text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-2 flex items-center justify-between">
+                                    <span>Atividade do Bot em Tempo Real</span>
+                                    <span class="text-emerald-600 font-mono">Ao Vivo</span>
+                                </div>
+                                <div class="space-y-2 font-mono text-[11px]" id="hero-live-feed">
+                                    <div class="flex items-center justify-between text-slate-700 py-1 border-b border-slate-200/60">
+                                        <span class="flex items-center gap-1.5">
+                                            <i class="fa-solid fa-comment-dots text-emerald-600"></i>
+                                            <span>Reserva Direta Chalé Luxo</span>
+                                        </span>
+                                        <span class="text-emerald-600 font-bold">+R$ 960</span>
+                                    </div>
+                                    <div class="flex items-center justify-between text-slate-700 py-1">
+                                        <span class="flex items-center gap-1.5">
+                                            <i class="fa-solid fa-bolt text-blue-600"></i>
+                                            <span>Cobriu preço do Booking (+5% desc)</span>
+                                        </span>
+                                        <span class="text-blue-600 font-semibold">Reserva Fechada!</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- POUSADA SELECTOR & CASES SECTION -->
+    <section id="pousadas-seletor" class="py-16 bg-slate-50 border-y border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <div class="text-center max-w-3xl mx-auto mb-12">
+                <span class="text-xs font-bold uppercase tracking-widest text-blue-700 bg-blue-100 px-3 py-1 rounded-full border border-blue-200">
+                    <i class="fa-solid fa-mouse-pointer mr-1"></i> Clique em uma Pousada para Ativar o Bot
+                </span>
+                <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 mt-4 mb-4">
+                    Escolha um Meio de Hospedagem Modelo
+                </h2>
+                <p class="text-slate-600 text-sm sm:text-base">
+                    Ao clicar em uma das pousadas abaixo, o <strong>Bot Balão de IA</strong> assume a identidade, diárias e fotos daquela hospedagem. Faça o teste!
+                </p>
+            </div>
+
+            <!-- Grid of Selectable Pousadas -->
+            <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+                
+                <!-- Pousada 1 -->
+                <div onclick="selectPousada('serra-negra')" id="card-serra-negra" class="pousada-card pousada-card-active light-card p-6 rounded-2xl border border-slate-200 cursor-pointer transition-all hover:scale-[1.02] relative overflow-hidden group">
+                    <div class="absolute top-2 right-2 px-2 py-0.5 rounded-full bg-emerald-100 border border-emerald-300 text-emerald-800 text-[10px] font-bold uppercase tracking-wider flex items-center gap-1 active-badge">
+                        <i class="fa-solid fa-circle text-[6px] animate-pulse text-emerald-600"></i> ATIVO NO BOT
+                    </div>
+                    <div class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Serra Negra - SP</div>
+                    <div class="text-lg font-bold text-slate-900 mb-1 group-hover:text-blue-600 transition-colors">Pousada Serra da Mantiqueira</div>
+                    <div class="text-xs text-blue-600 mb-3 font-mono font-semibold">Diária Média: R$ 480 | Casais</div>
+                    
+                    <div class="bg-red-50 p-2.5 rounded-lg border border-red-200 mb-2">
+                        <span class="text-[10px] text-slate-500 block">Perda mensal OTA:</span>
+                        <span class="text-xs font-bold text-red-600 font-mono">R$ 8.700 / mês</span>
+                    </div>
+                    <div class="bg-emerald-50 p-2.5 rounded-lg border border-emerald-200">
+                        <span class="text-[10px] text-slate-500 block">Lucro JRB Resgatado:</span>
+                        <span class="text-xs font-bold text-emerald-700 font-mono">+ R$ 6.100 / mês</span>
+                    </div>
+
+                    <button class="w-full mt-4 py-2 rounded-xl bg-slate-100 group-hover:bg-blue-600 text-slate-700 group-hover:text-white text-xs font-bold transition-all flex items-center justify-center gap-1.5">
+                        <i class="fa-solid fa-comment-dots"></i> Testar Bot Desta Pousada
+                    </button>
+                </div>
+
+                <!-- Pousada 2 -->
+                <div onclick="selectPousada('lindoia')" id="card-lindoia" class="pousada-card light-card p-6 rounded-2xl border border-slate-200 cursor-pointer transition-all hover:scale-[1.02] relative overflow-hidden group">
+                    <div class="absolute top-2 right-2 px-2 py-0.5 rounded-full bg-emerald-100 border border-emerald-300 text-emerald-800 text-[10px] font-bold uppercase tracking-wider hidden active-badge">
+                        <i class="fa-solid fa-circle text-[6px] animate-pulse text-emerald-600"></i> ATIVO NO BOT
+                    </div>
+                    <div class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Águas de Lindóia - SP</div>
+                    <div class="text-lg font-bold text-slate-900 mb-1 group-hover:text-blue-600 transition-colors">Hotel Fazenda Thermal</div>
+                    <div class="text-xs text-blue-600 mb-3 font-mono font-semibold">Diária Média: R$ 750 | Famílias</div>
+                    
+                    <div class="bg-red-50 p-2.5 rounded-lg border border-red-200 mb-2">
+                        <span class="text-[10px] text-slate-500 block">Perda mensal OTA:</span>
+                        <span class="text-xs font-bold text-red-600 font-mono">R$ 15.200 / mês</span>
+                    </div>
+                    <div class="bg-emerald-50 p-2.5 rounded-lg border border-emerald-200">
+                        <span class="text-[10px] text-slate-500 block">Lucro JRB Resgatado:</span>
+                        <span class="text-xs font-bold text-emerald-700 font-mono">+ R$ 11.400 / mês</span>
+                    </div>
+
+                    <button class="w-full mt-4 py-2 rounded-xl bg-slate-100 group-hover:bg-blue-600 text-slate-700 group-hover:text-white text-xs font-bold transition-all flex items-center justify-center gap-1.5">
+                        <i class="fa-solid fa-comment-dots"></i> Testar Bot Desta Pousada
+                    </button>
+                </div>
+
+                <!-- Pousada 3 -->
+                <div onclick="selectPousada('socorro')" id="card-socorro" class="pousada-card light-card p-6 rounded-2xl border border-slate-200 cursor-pointer transition-all hover:scale-[1.02] relative overflow-hidden group">
+                    <div class="absolute top-2 right-2 px-2 py-0.5 rounded-full bg-emerald-100 border border-emerald-300 text-emerald-800 text-[10px] font-bold uppercase tracking-wider hidden active-badge">
+                        <i class="fa-solid fa-circle text-[6px] animate-pulse text-emerald-600"></i> ATIVO NO BOT
+                    </div>
+                    <div class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Socorro - SP</div>
+                    <div class="text-lg font-bold text-slate-900 mb-1 group-hover:text-blue-600 transition-colors">Pousada Eco Aventura</div>
+                    <div class="text-xs text-blue-600 mb-3 font-mono font-semibold">Diária Média: R$ 390 | Pet Friendly</div>
+                    
+                    <div class="bg-red-50 p-2.5 rounded-lg border border-red-200 mb-2">
+                        <span class="text-[10px] text-slate-500 block">Perda mensal OTA:</span>
+                        <span class="text-xs font-bold text-red-600 font-mono">R$ 6.400 / mês</span>
+                    </div>
+                    <div class="bg-emerald-50 p-2.5 rounded-lg border border-emerald-200">
+                        <span class="text-[10px] text-slate-500 block">Lucro JRB Resgatado:</span>
+                        <span class="text-xs font-bold text-emerald-700 font-mono">+ R$ 4.800 / mês</span>
+                    </div>
+
+                    <button class="w-full mt-4 py-2 rounded-xl bg-slate-100 group-hover:bg-blue-600 text-slate-700 group-hover:text-white text-xs font-bold transition-all flex items-center justify-center gap-1.5">
+                        <i class="fa-solid fa-comment-dots"></i> Testar Bot Desta Pousada
+                    </button>
+                </div>
+
+                <!-- Pousada 4 -->
+                <div onclick="selectPousada('amparo')" id="card-amparo" class="pousada-card light-card p-6 rounded-2xl border border-slate-200 cursor-pointer transition-all hover:scale-[1.02] relative overflow-hidden group">
+                    <div class="absolute top-2 right-2 px-2 py-0.5 rounded-full bg-emerald-100 border border-emerald-300 text-emerald-800 text-[10px] font-bold uppercase tracking-wider hidden active-badge">
+                        <i class="fa-solid fa-circle text-[6px] animate-pulse text-emerald-600"></i> ATIVO NO BOT
+                    </div>
+                    <div class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Amparo - SP</div>
+                    <div class="text-lg font-bold text-slate-900 mb-1 group-hover:text-blue-600 transition-colors">Hotel Estância Colonial</div>
+                    <div class="text-xs text-blue-600 mb-3 font-mono font-semibold">Diária Média: R$ 620 | Lazer</div>
+                    
+                    <div class="bg-red-50 p-2.5 rounded-lg border border-red-200 mb-2">
+                        <span class="text-[10px] text-slate-500 block">Perda mensal OTA:</span>
+                        <span class="text-xs font-bold text-red-600 font-mono">R$ 11.900 / mês</span>
+                    </div>
+                    <div class="bg-emerald-50 p-2.5 rounded-lg border border-emerald-200">
+                        <span class="text-[10px] text-slate-500 block">Lucro JRB Resgatado:</span>
+                        <span class="text-xs font-bold text-emerald-700 font-mono">+ R$ 8.900 / mês</span>
+                    </div>
+
+                    <button class="w-full mt-4 py-2 rounded-xl bg-slate-100 group-hover:bg-blue-600 text-slate-700 group-hover:text-white text-xs font-bold transition-all flex items-center justify-center gap-1.5">
+                        <i class="fa-solid fa-comment-dots"></i> Testar Bot Desta Pousada
+                    </button>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- LIVE AI CHATBOT DEMO SECTION -->
+    <section id="agente-demo" class="py-20 relative bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <div class="grid lg:grid-cols-12 gap-12 items-center">
+                
+                <!-- Left text explainers -->
+                <div class="lg:col-span-5">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-100 text-blue-700 text-xs font-bold uppercase tracking-wider mb-4 border border-blue-200">
+                        <i class="fa-solid fa-comment-dots text-blue-600"></i>
+                        <span>Agente Balão de IA Conversacional</span>
+                    </div>
+                    <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 mb-6 leading-tight">
+                        Veja o <span class="gradient-text-blue">Bot Balão de IA</span> simular o atendimento da pousada
+                    </h2>
+                    <p class="text-slate-600 text-sm sm:text-base leading-relaxed mb-6">
+                        O bot no formato de <strong>balão de conversa inteligente</strong> lê o perfil da pousada que você escolheu. Ele responde instantaneamente, sugere datas, cobre valores de OTAs e <strong>envia o link de checkout direto com desconto</strong>.
+                    </p>
+
+                    <!-- Dynamic Hotel Details Badge -->
+                    <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 mb-6 space-y-2">
+                        <div class="text-xs font-bold text-slate-400 uppercase tracking-wider">Contexto Carregado na IA:</div>
+                        <div class="text-base font-bold text-blue-700 flex items-center gap-2" id="active-pousada-name-label">
+                            <i class="fa-solid fa-hotel"></i> Pousada Serra da Mantiqueira (Serra Negra)
+                        </div>
+                        <div class="text-xs text-slate-600" id="active-pousada-desc-label">
+                            Foco: Casais, Suítes com Hidro e Vista para as Montanhas. Diária R$ 480 com café artesanal.
+                        </div>
+                    </div>
+
+                    <!-- Feature Bullet Points -->
+                    <div class="space-y-3 mb-8">
+                        <div class="flex items-start gap-3 text-sm text-slate-700">
+                            <div class="w-6 h-6 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center shrink-0 mt-0.5 font-bold">
+                                <i class="fa-solid fa-check text-xs"></i>
+                            </div>
+                            <span>Balões de fala personalizados com dados da pousada.</span>
+                        </div>
+                        <div class="flex items-start gap-3 text-sm text-slate-700">
+                            <div class="w-6 h-6 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center shrink-0 mt-0.5 font-bold">
+                                <i class="fa-solid fa-check text-xs"></i>
+                            </div>
+                            <span>Regras automáticas para cobrir OTAs mantendo a margem de lucro.</span>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Right Simulator Box -->
+                <div class="lg:col-span-7">
+                    <div class="max-w-md mx-auto lg:max-w-none rounded-2xl light-card border border-slate-200 overflow-hidden shadow-xl bg-white">
+                        
+                        <!-- Chat Header -->
+                        <div class="bg-slate-900 p-4 flex items-center justify-between text-white">
+                            <div class="flex items-center gap-3">
+                                <div class="relative">
+                                    <div class="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center text-white font-bold text-lg" id="chat-header-avatar">
+                                        <i class="fa-solid fa-robot"></i>
+                                    </div>
+                                    <span class="absolute bottom-0 right-0 w-3 h-3 rounded-full bg-emerald-500 border-2 border-slate-900 animate-pulse"></span>
+                                </div>
+                                <div>
+                                    <div class="text-sm font-bold flex items-center gap-2">
+                                        <span id="chat-header-title">Concierge IA - Pousada Serra da Mantiqueira</span>
+                                    </div>
+                                    <div class="text-[11px] text-emerald-400 flex items-center gap-1 font-mono">
+                                        <i class="fa-solid fa-shield-halved"></i> Modo Reserva Direta Ativo
+                                    </div>
+                                </div>
+                            </div>
+                            <span class="text-xs text-slate-400 font-mono"><i class="fa-solid fa-bolt text-amber-400 mr-1"></i> 0.2s</span>
+                        </div>
+
+                        <!-- Chat Messages Container -->
+                        <div class="p-4 sm:p-6 bg-slate-50 h-[400px] overflow-y-auto space-y-4 custom-scrollbar text-xs" id="chat-box">
+                            <!-- Bot Message inserted by JS -->
+                        </div>
+
+                        <!-- Dynamic Suggested Quick Question Balloons -->
+                        <div class="p-3 bg-white border-t border-slate-200 flex flex-wrap gap-2 text-[11px]" id="chat-quick-suggestions">
+                            <!-- Populated dynamically via JS -->
+                        </div>
+
+                        <!-- Input Bar -->
+                        <div class="p-3 bg-white border-t border-slate-200 flex items-center gap-2">
+                            <input type="text" id="user-input" placeholder="Digite uma dúvida sobre esta pousada..." 
+                                class="flex-1 bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-blue-600 transition-colors"
+                                onkeypress="if(event.key==='Enter') handleUserSubmit()">
+                            <button onclick="handleUserSubmit()" class="w-10 h-10 rounded-xl bg-blue-600 hover:bg-blue-700 text-white flex items-center justify-center font-bold transition-all shadow-md shadow-blue-600/20">
+                                <i class="fa-solid fa-paper-plane text-xs"></i>
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- CALCULATOR SECTION -->
+    <section id="calculadora" class="py-20 bg-slate-50 border-t border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-xs font-bold uppercase tracking-widest text-blue-700 bg-blue-100 px-3 py-1 rounded-full border border-blue-200">
+                    Calculadora de ROI & Margem
+                </span>
+                <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 mt-4 mb-4">
+                    Simule o Lucro Adicional para sua Pousada
+                </h2>
+                <p class="text-slate-600 text-sm sm:text-base">
+                    Ajuste os parâmetros abaixo e veja como migrar reservas de OTAs para o Bot Balão JRB recupera o capital do seu negócio.
+                </p>
+            </div>
+
+            <div class="grid lg:grid-cols-12 gap-8 items-center light-card p-6 sm:p-10 rounded-2xl border border-slate-200 bg-white">
+                
+                <!-- Sliders Form -->
+                <div class="lg:col-span-6 space-y-6">
+                    
+                    <div>
+                        <div class="flex justify-between items-center mb-2">
+                            <label class="text-sm font-semibold text-slate-700">Número de Quartos / Unidades:</label>
+                            <span class="text-lg font-bold text-blue-600 font-mono" id="rooms-val">20 quartos</span>
+                        </div>
+                        <input type="range" id="rooms" min="5" max="100" value="20" step="1" 
+                            class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-blue-600" oninput="updateCalculations()">
+                    </div>
+
+                    <div>
+                        <div class="flex justify-between items-center mb-2">
+                            <label class="text-sm font-semibold text-slate-700">Diária Média (ADR):</label>
+                            <span class="text-lg font-bold text-blue-600 font-mono" id="adr-val">R$ 480</span>
+                        </div>
+                        <input type="range" id="adr" min="150" max="2500" value="480" step="10" 
+                            class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-blue-600" oninput="updateCalculations()">
+                    </div>
+
+                    <div>
+                        <div class="flex justify-between items-center mb-2">
+                            <label class="text-sm font-semibold text-slate-700">Taxa de Ocupação Média:</label>
+                            <span class="text-lg font-bold text-blue-600 font-mono" id="occ-val">55%</span>
+                        </div>
+                        <input type="range" id="occ" min="20" max="95" value="55" step="5" 
+                            class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-blue-600" oninput="updateCalculations()">
+                    </div>
+
+                    <div>
+                        <div class="flex justify-between items-center mb-2">
+                            <label class="text-sm font-semibold text-slate-700">% Atual de Vendas em OTAs (Booking, etc.):</label>
+                            <span class="text-lg font-bold text-red-600 font-mono" id="ota-val">70%</span>
+                        </div>
+                        <input type="range" id="ota" min="30" max="95" value="70" step="5" 
+                            class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-red-600" oninput="updateCalculations()">
+                    </div>
+
+                </div>
+
+                <!-- Simulation Output Box -->
+                <div class="lg:col-span-6 bg-slate-900 text-white p-6 sm:p-8 rounded-2xl flex flex-col justify-between shadow-xl">
+                    <div>
+                        <div class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">
+                            Diagnóstico Financeiro Estimado
+                        </div>
+                        <div class="text-2xl font-extrabold text-white mb-6">
+                            Sua Margem Recuperável
+                        </div>
+
+                        <div class="bg-red-950/40 border border-red-500/30 p-4 rounded-xl mb-4">
+                            <div class="text-xs text-red-300 mb-1">Você paga em comissões atualmente (por ano):</div>
+                            <div class="text-3xl sm:text-4xl font-black text-red-400 font-mono" id="res-ota-loss">
+                                R$ 145.152,00
+                            </div>
+                        </div>
+
+                        <div class="bg-emerald-950/40 border border-emerald-500/30 p-4 rounded-xl mb-6">
+                            <div class="text-xs text-emerald-300 mb-1">Lucro Líquido Adicional Resgatado com JRB:</div>
+                            <div class="text-3xl sm:text-4xl font-black text-emerald-400 font-mono" id="res-jrb-gain">
+                                + R$ 90.720,00 / ano
+                            </div>
+                            <div class="text-[11px] text-emerald-200/80 mt-1">
+                                equivalente a <span id="extra-direct-bookings" class="font-bold underline">189 diárias extras</span> vendidas sem comissão!
+                            </div>
+                        </div>
+                    </div>
+
+                    <a href="#diagnostico" class="w-full py-3.5 px-6 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-extrabold text-center text-sm uppercase tracking-wider transition-colors shadow-lg shadow-blue-600/30">
+                        Quero Recuperar Esse Valor Agora
+                    </a>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- 3 PILLARS SECTION -->
+    <section id="pilares" class="py-20 bg-white border-t border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-xs font-bold uppercase tracking-widest text-blue-700 bg-blue-100 px-3 py-1 rounded-full border border-blue-200">
+                    Sua Autonomia Comercial Restabelecida
+                </span>
+                <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 mt-4 mb-4">
+                    Os 3 Pilares do Ecossistema JRB TRUSTED
+                </h2>
+                <p class="text-slate-600 text-sm sm:text-base">
+                    Transformamos seu meio de hospedagem em uma máquina independente de vendas diretas com inteligência artificial.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                
+                <!-- Pilar 1 -->
+                <div class="light-card p-8 rounded-2xl border border-slate-200 light-card-hover transition-all group">
+                    <div class="w-14 h-14 rounded-2xl bg-blue-100 border border-blue-200 text-blue-600 flex items-center justify-center text-2xl mb-6 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-magnifying-glass-location"></i>
+                    </div>
+                    <div class="text-xs font-mono text-blue-600 uppercase tracking-wider mb-2 font-bold">Pilar 01</div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-3">Presença & SEO Dominante</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed mb-4">
+                        Otimizamos seu Perfil do Google Meu Negócio, Google Maps e SEO para sua pousada aparecer em 1º lugar antes das OTAs.
+                    </p>
+                    <ul class="space-y-2 text-xs text-slate-700 font-medium">
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-blue-600"></i> Otimização Google Hotel Ads</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-blue-600"></i> Posicionamento no Google Maps</li>
+                    </ul>
+                </div>
+
+                <!-- Pilar 2 -->
+                <div class="light-card p-8 rounded-2xl border border-slate-200 light-card-hover transition-all group relative overflow-hidden bg-blue-50/30">
+                    <div class="absolute top-0 right-0 bg-blue-600 text-white font-bold text-[10px] uppercase px-3 py-1 rounded-bl-xl">
+                        Bot Balão Incluído
+                    </div>
+                    <div class="w-14 h-14 rounded-2xl bg-emerald-100 border border-emerald-200 text-emerald-600 flex items-center justify-center text-2xl mb-6 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-comment-dots"></i>
+                    </div>
+                    <div class="text-xs font-mono text-emerald-700 uppercase tracking-wider mb-2 font-bold">Pilar 02</div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-3">Tração & Bot Balão de IA</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed mb-4">
+                        Anúncios diretos no Google e Meta direcionados para Landing Pages com Bot Balão de IA Embutido para atendimento e conversão 24 horas.
+                    </p>
+                    <ul class="space-y-2 text-xs text-slate-700 font-medium">
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-600"></i> Tráfego Pago Cirúrgico</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-600"></i> Respostas Instantâneas no Balão de Conversa</li>
+                    </ul>
+                </div>
+
+                <!-- Pilar 3 -->
+                <div class="light-card p-8 rounded-2xl border border-slate-200 light-card-hover transition-all group">
+                    <div class="w-14 h-14 rounded-2xl bg-teal-100 border border-teal-200 text-teal-600 flex items-center justify-center text-2xl mb-6 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-user-shield"></i>
+                    </div>
+                    <div class="text-xs font-mono text-teal-700 uppercase tracking-wider mb-2 font-bold">Pilar 03</div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-3">Retenção de Dados & CRM</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed mb-4">
+                        Os dados do hóspede pertencem totalmente a você. Retenção ativa e réguas automáticas no WhatsApp para reativação recorrente de hóspedes.
+                    </p>
+                    <ul class="space-y-2 text-xs text-slate-700 font-medium">
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-teal-600"></i> Posse Total do Banco de Clientes</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-teal-600"></i> Réguas no WhatsApp com Ofertas Preditivas</li>
+                    </ul>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- COMPARISON TABLE SECTION -->
+    <section class="py-20 bg-slate-50 border-t border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 mb-4">
+                    Comparativo Real: OTAs vs. Ecossistema JRB
+                </h2>
+                <p class="text-slate-600 text-sm sm:text-base">
+                    Entenda a diferença entre depender da vitrine de terceiros e ter seu próprio motor comercial.
+                </p>
+            </div>
+
+            <div class="light-card rounded-2xl border border-slate-200 overflow-hidden shadow-xl bg-white">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-slate-100 border-b border-slate-200 text-xs uppercase tracking-wider font-bold text-slate-700">
+                                <th class="p-4 sm:p-6">Fator de Análise</th>
+                                <th class="p-4 sm:p-6 text-red-700 bg-red-50">Plataformas OTAs (Booking / Expedia)</th>
+                                <th class="p-4 sm:p-6 text-emerald-700 bg-emerald-50">Ecossistema JRB TRUSTED</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-200 text-sm">
+                            <tr>
+                                <td class="p-4 sm:p-6 font-semibold text-slate-900">Comissão por Reserva</td>
+                                <td class="p-4 sm:p-6 text-red-700 bg-red-50/50 font-mono">18% a 30% da receita bruta</td>
+                                <td class="p-4 sm:p-6 text-emerald-700 bg-emerald-50/50 font-bold font-mono">0% (O dinheiro fica com você)</td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 sm:p-6 font-semibold text-slate-900">Dono do Banco de Dados</td>
+                                <td class="p-4 sm:p-6 text-slate-600 bg-red-50/50">A OTA (Sua pousada não pode recontactar)</td>
+                                <td class="p-4 sm:p-6 text-emerald-800 bg-emerald-50/50 font-semibold"><i class="fa-solid fa-circle-check text-emerald-600 mr-1.5"></i> Sua Pousada (Posse 100% sua)</td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 sm:p-6 font-semibold text-slate-900">Atendimento / Conversão</td>
+                                <td class="p-4 sm:p-6 text-slate-600 bg-red-50/50">Estático, se o cliente hesitar ele vê concorrentes</td>
+                                <td class="p-4 sm:p-6 text-emerald-800 bg-emerald-50/50 font-semibold"><i class="fa-solid fa-comment-dots text-emerald-600 mr-1.5"></i> Bot Balão IA 24/7 fecha a reserva na hora</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- LEAD CAPTURE DIAGNOSTIC FORM SECTION -->
+    <section id="diagnostico" class="py-20 bg-white border-t border-slate-200">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <div class="light-card rounded-3xl p-8 sm:p-12 border border-slate-200 shadow-2xl bg-white relative overflow-hidden">
+                <div class="grid md:grid-cols-12 gap-8 items-center relative z-10">
+                    
+                    <div class="md:col-span-5">
+                        <span class="text-xs font-bold uppercase tracking-widest text-blue-700 bg-blue-100 px-3 py-1 rounded-full border border-blue-200">
+                            Diagnóstico Gratuito
+                        </span>
+                        <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-4 mb-4">
+                            Sua pousada com mais lucro e autonomia
+                        </h2>
+                        <p class="text-slate-600 text-sm leading-relaxed mb-6">
+                            Nossa equipe criará uma demonstração personalizada do <strong>Bot Balão de IA</strong> para o seu meio de hospedagem sem custo inicial.
+                        </p>
+
+                        <div class="space-y-3 text-xs text-slate-700 font-medium">
+                            <div class="flex items-center gap-2">
+                                <i class="fa-solid fa-check text-blue-600"></i> Auditoria de perda para OTAs
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <i class="fa-solid fa-check text-blue-600"></i> Bot Balão configurado com suas suítes
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <i class="fa-solid fa-check text-blue-600"></i> Plano de Implantação em 4 Semanas
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="md:col-span-7 bg-slate-50 p-6 sm:p-8 rounded-2xl border border-slate-200">
+                        <form onsubmit="handleFormSubmit(event)" class="space-y-4">
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-700 mb-1">Seu Nome Completo:</label>
+                                <input type="text" id="form-name" required placeholder="Ex: Carlos Eduardo" 
+                                    class="w-full bg-white border border-slate-300 rounded-xl px-4 py-2.5 text-sm text-slate-900 focus:outline-none focus:border-blue-600 shadow-sm">
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-xs font-semibold text-slate-700 mb-1">Nome da Pousada/Hotel:</label>
+                                    <input type="text" id="form-hotel" required placeholder="Ex: Pousada Serra da Mantiqueira" 
+                                        class="w-full bg-white border border-slate-300 rounded-xl px-4 py-2.5 text-sm text-slate-900 focus:outline-none focus:border-blue-600 shadow-sm">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-semibold text-slate-700 mb-1">WhatsApp para Contato:</label>
+                                    <input type="tel" id="form-phone" required placeholder="(19) 99999-9999" 
+                                        class="w-full bg-white border border-slate-300 rounded-xl px-4 py-2.5 text-sm text-slate-900 focus:outline-none focus:border-blue-600 shadow-sm">
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-700 mb-1">Cidade / Região Hoteleira:</label>
+                                <input type="text" id="form-city" placeholder="Ex: Serra Negra - SP" 
+                                    class="w-full bg-white border border-slate-300 rounded-xl px-4 py-2.5 text-sm text-slate-900 focus:outline-none focus:border-blue-600 shadow-sm">
+                            </div>
+
+                            <button type="submit" class="w-full py-4 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-black uppercase text-sm tracking-wider transition-all shadow-lg shadow-blue-600/25 flex items-center justify-center gap-2">
+                                <i class="fa-brands fa-whatsapp text-lg"></i>
+                                <span>Solicitar Diagnóstico com Bot Balão</span>
+                            </button>
+                        </form>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="py-10 bg-slate-900 border-t border-slate-800 text-xs text-slate-400 text-center">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex items-center justify-center gap-2 mb-3">
+                <i class="fa-solid fa-hotel text-blue-400"></i>
+                <span class="text-white font-extrabold tracking-wider">JRB TRUSTED</span>
+                <span class="text-slate-600">|</span>
+                <span class="text-slate-400">Programa Reservas Limpas e Diretas</span>
+            </div>
+            <p>© 2026 JRB TRUSTED. Tecnologia e IA para Meios de Hospedagem Independente. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- FLOATING SPEECH BUBBLE CHATBOT WIDGET (BOTTOM RIGHT) -->
+    <div class="fixed bottom-5 right-5 z-50 flex flex-col items-end">
+        
+        <!-- Hover Prompt Speech Bubble Badge -->
+        <div id="floating-chat-tooltip" class="mb-3 mr-1 bg-blue-600 text-white p-3 rounded-2xl shadow-xl border border-blue-400 text-xs font-semibold flex items-center gap-2 cursor-pointer transition-all transform hover:scale-105" onclick="toggleFloatingChat()">
+            <div class="w-2 h-2 rounded-full bg-emerald-300 animate-ping"></div>
+            <span>💬 Falar com **Consultor JRB TRUSTED**</span>
+            <i class="fa-solid fa-xmark text-blue-200 ml-1 hover:text-white" onclick="event.stopPropagation(); hideFloatingTooltip()"></i>
+        </div>
+
+        <!-- Floating Chat Popup Window -->
+        <div id="floating-chat-window" class="hidden w-[350px] sm:w-[380px] h-[480px] rounded-2xl bg-white border border-slate-200 shadow-2xl flex flex-col overflow-hidden mb-3 animate-float-up">
+            
+            <!-- Window Header -->
+            <div class="bg-slate-900 p-3.5 border-b border-slate-800 flex items-center justify-between text-white">
+                <div class="flex items-center gap-2.5">
+                    <div class="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center text-sm font-bold shadow">
+                        <i class="fa-solid fa-headset"></i>
+                    </div>
+                    <div>
+                        <div class="text-xs font-bold" id="float-chat-title">Consultor JRB TRUSTED</div>
+                        <div class="text-[10px] text-emerald-400 font-mono" id="float-chat-subtitle">Atendimento & Ecossistema de IA</div>
+                    </div>
+                </div>
+                <button onclick="toggleFloatingChat()" class="w-7 h-7 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 flex items-center justify-center">
+                    <i class="fa-solid fa-xmark text-xs"></i>
+                </button>
+            </div>
+
+            <!-- Speech Bubble Messages Body -->
+            <div class="flex-1 p-4 bg-slate-50 overflow-y-auto space-y-3 custom-scrollbar text-xs" id="float-chat-box">
+                <!-- Populated dynamically via JS -->
+            </div>
+
+            <!-- Quick Action Chips in Floating Window -->
+            <div class="p-2 bg-white border-t border-slate-200 flex flex-wrap gap-1.5 text-[10px]" id="float-quick-chips">
+                <!-- Chips -->
+            </div>
+
+            <!-- Input Bar -->
+            <div class="p-2.5 bg-white border-t border-slate-200 flex items-center gap-2">
+                <input type="text" id="float-user-input" placeholder="Digite sua dúvida sobre o sistema JRB..." 
+                    class="flex-1 bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-blue-600"
+                    onkeypress="if(event.key==='Enter') handleFloatUserSubmit()">
+                <button onclick="handleFloatUserSubmit()" class="w-8 h-8 rounded-lg bg-blue-600 text-white flex items-center justify-center font-bold">
+                    <i class="fa-solid fa-paper-plane text-xs"></i>
+                </button>
+            </div>
+
+        </div>
+
+        <!-- Floating Trigger Speech Bubble Button -->
+        <button onclick="toggleFloatingChat()" class="relative w-14 h-14 rounded-full bg-blue-600 text-white shadow-xl shadow-blue-600/30 group hover:scale-110 transition-transform flex items-center justify-center">
+            <i class="fa-solid fa-headset text-2xl animate-bounce-subtle"></i>
+            <span class="absolute top-0 right-0 w-4 h-4 rounded-full bg-emerald-500 border-2 border-white animate-pulse"></span>
+        </button>
+
+    </div>
+
+    <!-- JAVASCRIPT APP LOGIC -->
+    <script>
+        // Pousada Datasets
+        const pousadasData = {
+            'serra-negra': {
+                id: 'serra-negra',
+                name: 'Pousada Serra da Mantiqueira',
+                city: 'Serra Negra - SP',
+                adr: 480,
+                rooms: 20,
+                occ: 55,
+                otaLoss: 'R$ 8.700 / mês',
+                jrbGain: '+ R$ 6.100 / mês',
+                type: 'Casais & Romântico',
+                desc: 'Chalés com Hidromassagem, Lareira e Vista panorâmica das montanhas de Serra Negra. Café da manhã artesanal incluso.',
+                welcomeMsg: 'Olá! 👋 Sou o assistente em balão da **Pousada Serra da Mantiqueira** (Serra Negra). Como posso ajudar com a sua viagem para o casal?',
+                quickQuestions: [
+                    'Quarto com Hidro neste FDS?',
+                    'Vi no Booking por R$ 500, cobre?',
+                    'Aceitam pets na pousada?'
+                ],
+                feed: [
+                    { title: 'Reserva Direta Chalé Luxo', val: '+R$ 960' },
+                    { title: 'Cobriu Booking (+5% desc)', val: 'Confirmado!' }
+                ]
+            },
+            'lindoia': {
+                id: 'lindoia',
+                name: 'Hotel Fazenda Thermal',
+                city: 'Águas de Lindóia - SP',
+                adr: 750,
+                rooms: 35,
+                occ: 65,
+                otaLoss: 'R$ 15.200 / mês',
+                jrbGain: '+ R$ 11.400 / mês',
+                type: 'Famílias & Piscinas Aquecidas',
+                desc: 'Parque aquático com águas termais, recreação monitorada para crianças e pensão completa.',
+                welcomeMsg: 'Olá! 🏊 Bem-vindo ao atendimento do **Hotel Fazenda Thermal** (Águas de Lindóia)! Procurando lazer para a família?',
+                quickQuestions: [
+                    'Tem piscina aquecida?',
+                    'Valor da pensão completa?',
+                    'Desconto para família com 2 crianças?'
+                ],
+                feed: [
+                    { title: 'Pacote Família 3 Diárias', val: '+R$ 2.250' },
+                    { title: 'Checkout Direto no WhatsApp', val: 'Aprovado' }
+                ]
+            },
+            'socorro': {
+                id: 'socorro',
+                name: 'Pousada Eco Aventura',
+                city: 'Socorro - SP',
+                adr: 390,
+                rooms: 15,
+                occ: 60,
+                otaLoss: 'R$ 6.400 / mês',
+                jrbGain: '+ R$ 4.800 / mês',
+                type: 'Pet Friendly & Natureza',
+                desc: 'Trilhas privativas, acesso ao rio para rafting e total estrutura Pet Friendly com espaço agility.',
+                welcomeMsg: 'Olá! 🐶 Sou a IA da **Pousada Eco Aventura** em Socorro! Quer vir curtir a natureza e trazer seu pet?',
+                quickQuestions: [
+                    'Aceitam cachorro de porte grande?',
+                    'Quais passeios de aventura inclusos?',
+                    'Cupom de desconto reserva direta?'
+                ],
+                feed: [
+                    { title: 'Reserva Suíte Pet Friendly', val: '+R$ 780' },
+                    { title: 'Transfer/Rafting Confirmado', val: 'Anexado' }
+                ]
+            },
+            'amparo': {
+                id: 'amparo',
+                name: 'Hotel Estância Colonial',
+                city: 'Amparo - SP',
+                adr: 620,
+                rooms: 28,
+                occ: 50,
+                otaLoss: 'R$ 11.900 / mês',
+                jrbGain: '+ R$ 8.900 / mês',
+                type: 'Lazer Completo & Gastronomia',
+                desc: 'Casarão histórico restaurado, adega subterrânea, quadras de tênis e alta gastronomia do interior.',
+                welcomeMsg: 'Bem-vindo ao **Hotel Estância Colonial** em Amparo! 🍷 Como posso auxiliar na sua hospedagem inesquecível?',
+                quickQuestions: [
+                    'Jantar harmonizado incluso?',
+                    'Disponibilidade para feriado?',
+                    'Cobrir preço do TripAdvisor/OTA?'
+                ],
+                feed: [
+                    { title: 'Reserva Suíte Master Colonial', val: '+R$ 1.860' },
+                    { title: 'Membro Fidelidade Reativado', val: 'CAC R$ 0' }
+                ]
+            }
+        };
+
+        // Current Active Pousada State
+        let currentPousada = pousadasData['serra-negra'];
+
+        function selectPousada(pousadaId) {
+            currentPousada = pousadasData[pousadaId];
+
+            // Update UI Card Highlights
+            document.querySelectorAll('.pousada-card').forEach(card => {
+                card.classList.remove('pousada-card-active');
+                card.querySelector('.active-badge').classList.add('hidden');
+            });
+
+            const activeCard = document.getElementById(`card-${pousadaId}`);
+            if (activeCard) {
+                activeCard.classList.add('pousada-card-active');
+                activeCard.querySelector('.active-badge').classList.remove('hidden');
+            }
+
+            // Update Hero Preview Card
+            document.getElementById('hero-card-hotel-title').textContent = currentPousada.name;
+            document.getElementById('hero-ota-loss').textContent = `- ${currentPousada.otaLoss}`;
+            document.getElementById('hero-jrb-gain').textContent = currentPousada.jrbGain;
+
+            // Update Live Feed
+            const feedContainer = document.getElementById('hero-live-feed');
+            feedContainer.innerHTML = currentPousada.feed.map(item => `
+                <div class="flex items-center justify-between text-slate-700 py-1 border-b border-slate-200/60">
+                    <span class="flex items-center gap-1.5">
+                        <i class="fa-solid fa-comment-dots text-emerald-600"></i>
+                        <span>${item.title}</span>
+                    </span>
+                    <span class="text-emerald-600 font-bold">${item.val}</span>
+                </div>
+            `).join('');
+
+            // Update Calculator Inputs
+            document.getElementById('rooms').value = currentPousada.rooms;
+            document.getElementById('adr').value = currentPousada.adr;
+            document.getElementById('occ').value = currentPousada.occ;
+            updateCalculations();
+
+            // Update Active Pousada Labels
+            document.getElementById('active-pousada-name-label').innerHTML = `<i class="fa-solid fa-hotel"></i> ${currentPousada.name} (${currentPousada.city})`;
+            document.getElementById('active-pousada-desc-label').textContent = currentPousada.desc;
+
+            // Update Embedded Chat Title
+            document.getElementById('chat-header-title').textContent = `Concierge IA - ${currentPousada.name}`;
+
+            // Reset and Render Embedded Chat Messages
+            renderInitialChatMessages();
+
+            // Pre-fill Diagnostic Form
+            document.getElementById('form-hotel').value = currentPousada.name;
+            document.getElementById('form-city').value = currentPousada.city;
+        }
+
+        function renderInitialChatMessages() {
+            const chatBox = document.getElementById('chat-box');
+            chatBox.innerHTML = `
+                <div class="flex gap-3 items-start">
+                    <div class="w-8 h-8 rounded-full bg-blue-100 border border-blue-200 text-blue-600 flex items-center justify-center shrink-0 text-xs font-bold shadow-sm">
+                        <i class="fa-solid fa-comment-dots"></i>
+                    </div>
+                    <div class="chat-balloon-bot bg-white border border-slate-200 p-4 rounded-2xl text-slate-800 max-w-[85%] space-y-2 shadow-sm">
+                        <div class="flex items-center justify-between border-b border-slate-100 pb-1.5 mb-1">
+                            <span class="text-[11px] font-bold text-blue-600 flex items-center gap-1">
+                                <i class="fa-solid fa-robot"></i> Bot Balão - ${currentPousada.name}
+                            </span>
+                            <span class="text-[9px] text-slate-400 font-mono">Agora</span>
+                        </div>
+                        <p class="leading-relaxed text-slate-700">${currentPousada.welcomeMsg}</p>
+                        <div class="pt-2 border-t border-slate-100 flex items-center justify-between">
+                            <span class="text-[11px] text-emerald-600 font-bold flex items-center gap-1">
+                                <i class="fa-solid fa-tag"></i> Desconto direto exclusivo de 5% ativado!
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // Quick Questions Chips
+            const suggestionsContainer = document.getElementById('chat-quick-suggestions');
+            suggestionsContainer.innerHTML = currentPousada.quickQuestions.map(q => `
+                <button onclick="sendSampleMsg('${q}')" class="px-3 py-2 rounded-xl bg-slate-100 hover:bg-blue-50 text-slate-700 transition-all border border-slate-200 flex items-center gap-1.5 font-medium">
+                    💬 <span>${q}</span>
+                </button>
+            `).join('');
+        }
+
+        /* --- BOT FLUTUANTE CONSULTOR JRB TRUSTED LOGIC --- */
+
+        const jrbConsultantData = {
+            welcomeMsg: 'Olá! 👋 Sou o **Consultor Comercial da JRB TRUSTED**. Como posso ajudar a sua pousada a recuperar margem e aumentar vendas diretas sem comissão?',
+            quickQuestions: [
+                'Como funciona o teste?',
+                'Quanto custa o ecossistema?',
+                'Agendar Diagnóstico Gratuito'
+            ]
+        };
+
+        function renderFloatChatMessages() {
+            const floatBox = document.getElementById('float-chat-box');
+            floatBox.innerHTML = `
+                <div class="flex gap-2 items-start">
+                    <div class="w-7 h-7 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center text-xs font-bold shrink-0">
+                        <i class="fa-solid fa-headset"></i>
+                    </div>
+                    <div class="chat-balloon-bot bg-white border border-slate-200 p-3 rounded-xl text-slate-800 max-w-[88%] text-[11px] shadow-sm">
+                        <div class="font-bold text-blue-600 mb-1">JRB TRUSTED - Consultoria</div>
+                        ${jrbConsultantData.welcomeMsg}
+                    </div>
+                </div>
+            `;
+
+            const floatChips = document.getElementById('float-quick-chips');
+            floatChips.innerHTML = jrbConsultantData.quickQuestions.map(q => `
+                <button onclick="sendFloatSampleMsg('${q}')" class="px-2.5 py-1.5 rounded-lg bg-slate-100 hover:bg-blue-50 text-slate-700 border border-slate-200 font-medium">
+                    ${q}
+                </button>
+            `).join('');
+        }
+
+        function handleUserSubmit() {
+            const input = document.getElementById('user-input');
+            const text = input.value.trim();
+            if (!text) return;
+
+            addUserBalloon(text, 'chat-box');
+            input.value = '';
+
+            setTimeout(() => {
+                respondBot(text, 'chat-box');
+            }, 600);
+        }
+
+        function sendSampleMsg(text) {
+            addUserBalloon(text, 'chat-box');
+            setTimeout(() => {
+                respondBot(text, 'chat-box');
+            }, 600);
+        }
+
+        function handleFloatUserSubmit() {
+            const input = document.getElementById('float-user-input');
+            const text = input.value.trim();
+            if (!text) return;
+
+            addUserBalloon(text, 'float-chat-box');
+            input.value = '';
+
+            setTimeout(() => {
+                respondFloatBot(text);
+            }, 600);
+        }
+
+        function sendFloatSampleMsg(text) {
+            addUserBalloon(text, 'float-chat-box');
+            setTimeout(() => {
+                respondFloatBot(text);
+            }, 600);
+        }
+
+        function addUserBalloon(msg, targetId) {
+            const box = document.getElementById(targetId);
+            const userMsgHtml = `
+                <div class="flex gap-2 items-start justify-end">
+                    <div class="chat-balloon-user bg-blue-600 text-white p-3 rounded-2xl max-w-[85%] shadow-sm">
+                        <p class="leading-relaxed">${msg}</p>
+                    </div>
+                    <div class="w-7 h-7 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center shrink-0 text-xs font-bold">
+                        <i class="fa-solid fa-user"></i>
+                    </div>
+                </div>
+            `;
+            box.insertAdjacentHTML('beforeend', userMsgHtml);
+            box.scrollTop = box.scrollHeight;
+        }
+
+        function respondBot(userText, targetId) {
+            const box = document.getElementById(targetId);
+            const lower = userText.toLowerCase();
+
+            let botReply = `Com certeza! Na **${currentPousada.name}**, garantimos a melhor diária reservando direto. Quer que eu verifique a disponibilidade para as suas datas?`;
+            
+            if (lower.includes('booking') || lower.includes('cobre') || lower.includes('preço') || lower.includes('valor')) {
+                botReply = `🎯 **Cobrimos a oferta da OTA com vantagem extra!** Se você viu no Booking por R$ ${currentPousada.adr}, reservando pelo nosso Bot Balão com o cupom **DIRETO5**, a diária sai por **R$ ${Math.round(currentPousada.adr * 0.95)}** com café da manhã artesanal e suporte flexível!`;
+            } else if (lower.includes('pet') || lower.includes('cachorro')) {
+                botReply = `🐾 **Somos Pet Friendly!** Seu pet é muito bem-vindo na **${currentPousada.name}**. Temos espaço verde reservado e potinhos nas suítes. Deseja incluir seu pet na reserva?`;
+            } else if (lower.includes('piscina') || lower.includes('aquecida') || lower.includes('hidro') || lower.includes('quarto')) {
+                botReply = `✨ Nossa suíte principal conta com **${currentPousada.desc}**. Diária a partir de R$ ${currentPousada.adr}. Posso gerar seu link seguro de reserva direta agora?`;
+            }
+
+            const botMsgHtml = `
+                <div class="flex gap-2 items-start">
+                    <div class="w-7 h-7 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center shrink-0 text-xs font-bold shadow-sm">
+                        <i class="fa-solid fa-robot"></i>
+                    </div>
+                    <div class="chat-balloon-bot bg-white border border-slate-200 p-3.5 rounded-2xl text-slate-800 max-w-[85%] space-y-2 shadow-sm">
+                        <p class="leading-relaxed">${botReply}</p>
+                        <div class="pt-2 border-t border-slate-100 flex items-center justify-between">
+                            <button onclick="triggerCheckoutDemo()" class="px-3 py-1.5 rounded-lg bg-emerald-600 text-white font-bold text-[10px] hover:bg-emerald-700 transition-colors flex items-center gap-1 shadow-sm">
+                                <i class="fa-solid fa-lock"></i> Gerar Link de Reserva Direta
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            box.insertAdjacentHTML('beforeend', botMsgHtml);
+            box.scrollTop = box.scrollHeight;
+        }
+
+        function respondFloatBot(userText) {
+            const box = document.getElementById('float-chat-box');
+            const lower = userText.toLowerCase();
+
+            let botReply = `O **Ecossistema JRB TRUSTED** une Inteligência Artificial em Balão, Google Hotel Ads e CRM para zerar a dependência de comissões de OTAs. Como podemos ajudar seu meio de hospedagem?`;
+
+            if (lower.includes('teste') || lower.includes('funciona')) {
+                botReply = `🚀 O teste é super prático! Nós treinamos um **Bot Balão de IA** exclusivo com as fotos, tarifário e regras da sua pousada em 48h. Você mesmo testa o atendimento antes de decidir implantar!`;
+            } else if (lower.includes('custa') || lower.includes('preço') || lower.includes('valor')) {
+                botReply = `💰 Nosso modelo é baseado em **Performance e ROI positivo**. O valor se paga nas primeiras reservas que deixam de pagar comissão de 20% para o Booking! Deseja ver uma estimativa para o seu número de quartos?`;
+            } else if (lower.includes('agendar') || lower.includes('diagnóstico') || lower.includes('falar')) {
+                botReply = `📅 Perfeito! Você pode preencher o formulário nesta página ou nos mandar uma mensagem no WhatsApp. Deseja abrir o WhatsApp com um consultor agora?`;
+            }
+
+            const botMsgHtml = `
+                <div class="flex gap-2 items-start">
+                    <div class="w-7 h-7 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center shrink-0 text-xs font-bold shadow-sm">
+                        <i class="fa-solid fa-headset"></i>
+                    </div>
+                    <div class="chat-balloon-bot bg-white border border-slate-200 p-3.5 rounded-2xl text-slate-800 max-w-[88%] space-y-2 shadow-sm">
+                        <p class="leading-relaxed">${botReply}</p>
+                        <div class="pt-2 border-t border-slate-100 flex items-center justify-between">
+                            <a href="#diagnostico" onclick="toggleFloatingChat()" class="px-3 py-1.5 rounded-lg bg-blue-600 text-white font-bold text-[10px] hover:bg-blue-700 transition-colors flex items-center gap-1">
+                                <i class="fa-solid fa-calendar-check"></i> Solicitar Diagnóstico
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            box.insertAdjacentHTML('beforeend', botMsgHtml);
+            box.scrollTop = box.scrollHeight;
+        }
+
+        function triggerCheckoutDemo() {
+            showToast(`🎉 Link de Checkout Direto Sem Comissão gerado para ${currentPousada.name}!`);
+        }
+
+        function updateCalculations() {
+            const rooms = parseInt(document.getElementById('rooms').value);
+            const adr = parseInt(document.getElementById('adr').value);
+            const occ = parseInt(document.getElementById('occ').value) / 100;
+            const ota = parseInt(document.getElementById('ota').value) / 100;
+
+            document.getElementById('rooms-val').textContent = `${rooms} quartos`;
+            document.getElementById('adr-val').textContent = `R$ ${adr}`;
+            document.getElementById('occ-val').textContent = `${Math.round(occ * 100)}%`;
+            document.getElementById('ota-val').textContent = `${Math.round(ota * 100)}%`;
+
+            const totalYearlyRevenue = rooms * 365 * occ * adr;
+            const otaRevenue = totalYearlyRevenue * ota;
+            const otaCommissionLoss = otaRevenue * 0.22;
+            const jrbRecoveredProfit = otaCommissionLoss * 0.65;
+            const extraBookingsCount = Math.round(jrbRecoveredProfit / adr);
+
+            document.getElementById('res-ota-loss').textContent = `R$ ${otaCommissionLoss.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+            document.getElementById('res-jrb-gain').textContent = `+ R$ ${jrbRecoveredProfit.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2})} / ano`;
+            document.getElementById('extra-direct-bookings').textContent = `${extraBookingsCount} diárias extras`;
+        }
+
+        function toggleFloatingChat() {
+            const windowEl = document.getElementById('floating-chat-window');
+            windowEl.classList.toggle('hidden');
+        }
+
+        function hideFloatingTooltip() {
+            document.getElementById('floating-chat-tooltip').classList.add('hidden');
+        }
+
+        function toggleMobileMenu() {
+            document.getElementById('mobile-nav').classList.toggle('hidden');
+        }
+
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            const hotel = document.getElementById('form-hotel').value;
+            showToast(`✅ Diagnóstico solicitado com sucesso para ${hotel}! Entraremos em contato.`);
+        }
+
+        function showToast(msg) {
+            const toast = document.createElement('div');
+            toast.className = 'fixed top-24 right-5 z-50 bg-blue-600 text-white font-bold text-xs px-5 py-3 rounded-xl shadow-2xl transition-all border border-blue-400';
+            toast.innerHTML = `<i class="fa-solid fa-circle-check mr-2"></i> ${msg}`;
+            document.body.appendChild(toast);
+            setTimeout(() => {
+                toast.remove();
+            }, 4000);
+        }
+
+        // Window Load Initializers
+        window.onload = function() {
+            selectPousada('serra-negra');
+            renderFloatChatMessages();
+        }
+    </script>
+</body>
+</html>
